@@ -2,11 +2,32 @@
   "disabled": false,
   "bindings": [
     {
-      "name": "myQueueItem",
+      "name": "action",
       "type": "queueTrigger",
       "direction": "in",
       "queueName": "client-state-in",
       "connection": "mediagarden0clientqueues"
+    },
+    {
+      "name": "scriptPostQueueOut",
+      "type": "queue",
+      "direction": "out",
+      "queueName": "script-post",
+      "connection": "mediagarden0interqueues",
+    },
+    {
+      "name": "agreementPostQueueOut",
+      "type": "queue",
+      "direction": "out",
+      "queueName": "agreement-post",
+      "connection": "mediagarden0interqueues",
+    },
+    {
+      "name": "clientStateOut",
+      "type": "queue",
+      "direction": "out",
+      "queueName": "client-state-out",
+      "connection": "mediagarden0clientqueues",
     }
   ]
 }
