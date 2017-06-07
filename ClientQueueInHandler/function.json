@@ -6,7 +6,7 @@
       "type": "queueTrigger",
       "direction": "in",
       "queueName": "client-state-in",
-      "connection": "mediagarden0clientqueues_STORAGE"
+      "connection": "mediagarden0clientqueues"
     }
   ]
 }
