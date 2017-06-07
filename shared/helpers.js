@@ -1,5 +1,5 @@
 const roleGroups = {
-	all: ['Faculty', 'Staff', 'Student']
+	all: ['Faculty', 'Staff', 'Student'],
 	fasta: ['Faculty', 'Staff'],
 	fa: ['Faculty'],
 	sta: ['Staff'],
