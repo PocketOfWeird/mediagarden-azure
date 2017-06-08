@@ -7,17 +7,17 @@ const roleGroups = {
 }
 
 const checkRoles = (action, roleGroup, errorCb, successCb) => {
-	if (roleGroups[roleGroup].includes(action.meta.user.attributes.primary_role)) {
-		successCb()
-	} else {
-		errorCb()
+	if (!roleGroups[roleGroup].includes(action.meta.user.attributes.primary_role)) {
+		return errorCb()
 	}
+	return successCb()
 }
 
 const errorAction = message => ({
 	type: 'SERVER_ERROR',
 	payload: new Error(message),
-	error: true
+	error: true,
+	meta: message
 })
 
 const jsonToBase64Str = json => new Buffer(JSON.stringify(json)).toString("base64")
