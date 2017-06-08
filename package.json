@@ -1,5 +1,9 @@
 {
   "dependencies": {
-    "jsonwebtoken": "^7.4.1"
+    "azure-storage": "^2.1.0",
+    "jsonwebtoken": "^7.4.1",
+    "obey": "^1.7.4",
+    "uuid": "^3.0.1",
+    "validator": "^7.0.0"
   }
 }
