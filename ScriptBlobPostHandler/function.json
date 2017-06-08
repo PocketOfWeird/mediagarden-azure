@@ -1,0 +1,19 @@
+{
+  "disabled": false,
+  "bindings": [
+    {
+      "name": "scriptBlob",
+      "type": "blobTrigger",
+      "direction": "in",
+      "path": "script",
+      "connection": "mediagarden0clientblobs"
+    },
+    {
+      "name": "clientStateOut",
+      "type": "queue",
+      "direction": "out",
+      "queueName": "client-state-out",
+      "connection": "mediagarden0clientqueues",
+    }
+  ]
+}

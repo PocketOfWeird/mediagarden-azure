@@ -1,14 +1,12 @@
+// ClientQueueHandler/index.js
 const jwt = require('jsonwebtoken')
-const { checkRoles, errorAction } = require('../shared/helpers')
+const User = require('../shared/models/User')
+const { SERVER_AGREEMENT_POST } = require('../shared/action_types')
+const { checkRoles, sendErrorToClient } = require('../shared/helpers')
 
-
-const sendErrorToClient = (message, context) => {
-  context.bindings.clientStateOut = [errorAction(message)]
-  context.done()
-}
 
 const outToQueue = (queue, roleGroup, action, context) => checkRoles(action, roleGroup,
-  () => sendErrorToClient('Insufficient permissions', context),
+  () => sendErrorToClient('Insufficient permissions', context, action),
   () => {
     context.bindings[queue + 'QueueOut'] = [action]
     context.done()
@@ -20,24 +18,25 @@ module.exports = (context, action) => {
       jwt.verify(action.meta.token, process.env['temp_client_key_secret'], (err, user) => {
         if (!err) {
 
-          action.meta.user = user
+          User.validate(user)
+          .then(validatedUser => {
+            action.meta.user = validatedUser
 
-          switch (action.type) {
-            case 'SERVER_SCRIPT_POST':
-              outToQueue('scriptPost', 'fasta', action, context)
-              break
-            case 'SERVER_AGREEMENT_POST':
-              outToQueue('agreementPost', 'fasta', action, context)
-              break
-            default:
-              sendErrorToClient('Invalid action type', context)
-              break
-          }
+            switch (action.type) {
+              case SERVER_AGREEMENT_POST:
+                outToQueue('agreementPost', 'fasta', action, context)
+                break
+              default:
+                sendErrorToClient('Invalid action type', context, action)
+                break
+            }
+          })
+          .catch(error => sendErrorToClient(error, context, action))
         } else {
-          sendErrorToClient('Invalid token', context)
+          sendErrorToClient('Invalid token', context, action)
         }
       })
     } else {
-      sendErrorToClient('Invalid action', context)
+      sendErrorToClient('Invalid action', context, action)
     }
 }

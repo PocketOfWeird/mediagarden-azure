@@ -1,3 +1,6 @@
+// helpers.js
+const validator = require('validator')
+
 const roleGroups = {
 	all: ['Faculty', 'Staff', 'Student'],
 	fasta: ['Faculty', 'Staff'],
@@ -13,18 +16,59 @@ const checkRoles = (action, roleGroup, errorCb, successCb) => {
 	return successCb()
 }
 
-const errorAction = message => ({
+const dataAction = (data, action) => ({
+	type: 'SERVER_DATA',
+	payload: {
+		data
+	},
+	meta: {
+		action
+	}
+})
+
+const errorAction = (error, action) => ({
 	type: 'SERVER_ERROR',
-	payload: new Error(message),
+	payload: typeof(error) === 'string' ? new Error(message) : error,
 	error: true,
-	meta: message
+	meta: {
+		error: error + '',
+		action
+	}
 })
 
 const jsonToBase64Str = json => new Buffer(JSON.stringify(json)).toString("base64")
 
+const sanitize = value => {
+  if (typeof(value) !== 'string') value = '' + value
+  return validator.whitelist(value, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789 :'-")
+}
+
+const sanitizeWithCommas = value => {
+  if (typeof(value) !== 'string') value = '' + value
+  return validator.whitelist(value, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789 :'-,")
+}
+
+const sanitizeConservatively = value => {
+  if (typeof(value) !== 'string') value = '' + value
+  return validator.whitelist(value, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789 :'-,\\\r\\\n\\(\\)!?.")
+}
+
+const sendDataToClient = (data, context, action) => {
+	context.bindings.clientStateOut = [dataAction(data, action)]
+	context.done()
+}
+
+const sendErrorToClient = (error, context, action) => {
+  context.bindings.clientStateOut = [errorAction(error, action)]
+  context.done()
+}
 
 module.exports  = {
 	checkRoles,
-	errorAction,
-	jsonToBase64Str
+	jsonToBase64Str,
+	sanitize,
+  sanitizeWithCommas,
+  sanitizeConservatively,
+	sendDataToClient,
+	sendErrorToClient
 }
