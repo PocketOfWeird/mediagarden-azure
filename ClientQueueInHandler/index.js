@@ -1,7 +1,10 @@
 // ClientQueueHandler/index.js
 const jwt = require('jsonwebtoken')
 const User = require('../shared/models/User')
-const { SERVER_AGREEMENT_POST } = require('../shared/action_types')
+const {
+  SERVER_AGREEMENT_POST,
+  SERVER_SCRIPT_POST
+} = require('../shared/action_types')
 const { checkRoles, sendErrorToClient } = require('../shared/helpers')
 
 
@@ -25,6 +28,9 @@ module.exports = (context, action) => {
             switch (action.type) {
               case SERVER_AGREEMENT_POST:
                 outToQueue('agreementPost', 'fasta', action, context)
+                break
+              case SERVER_SCRIPT_POST:
+                outToQueue('scriptPost', 'all', action, context)
                 break
               default:
                 sendErrorToClient('Invalid action type', context, action)

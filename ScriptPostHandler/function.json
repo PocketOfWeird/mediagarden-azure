@@ -5,21 +5,14 @@
       "name": "action",
       "type": "queueTrigger",
       "direction": "in",
-      "queueName": "client-state-in",
-      "connection": "mediagarden0clientqueues"
-    },
-    {
-      "name": "agreementPostQueueOut",
-      "type": "queue",
-      "direction": "out",
-      "queueName": "agreement-post",
-      "connection": "mediagarden0interqueues",
-    },
-    {
-      "name": "scriptPostQueueOut",
-      "type": "queue",
-      "direction": "out",
       "queueName": "script-post",
+      "connection": "mediagarden0interqueues"
+    },
+    {
+      "name": "scriptUpdateQueueOut",
+      "type": "queue",
+      "direction": "out",
+      "queueName": "script-update",
       "connection": "mediagarden0interqueues",
     },
     {

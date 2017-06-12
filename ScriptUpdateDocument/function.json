@@ -2,11 +2,11 @@
   "disabled": false,
   "bindings": [
     {
-      "name": "scriptBlob",
-      "type": "blobTrigger",
+      "name": "action",
+      "type": "queueTrigger",
       "direction": "in",
-      "path": "script",
-      "connection": "mediagarden0clientblobs"
+      "queueName": "script-update",
+      "connection": "mediagarden0interqueues"
     },
     {
       "name": "clientStateOut",

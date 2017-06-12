@@ -28,7 +28,7 @@ const dataAction = (data, action) => ({
 
 const errorAction = (error, action) => ({
 	type: 'SERVER_ERROR',
-	payload: typeof(error) === 'string' ? new Error(message) : error,
+	payload: typeof(error) === 'string' ? new Error(error) : error,
 	error: true,
 	meta: {
 		error: error + '',
@@ -37,6 +37,11 @@ const errorAction = (error, action) => ({
 })
 
 const jsonToBase64Str = json => new Buffer(JSON.stringify(json)).toString("base64")
+
+const isUrl = value => {
+	if (typeof(value) !== 'string') value = '' + value
+	return validator.isURL(value)
+}
 
 const sanitize = value => {
   if (typeof(value) !== 'string') value = '' + value
@@ -50,7 +55,7 @@ const sanitizeWithCommas = value => {
 
 const sanitizeConservatively = value => {
   if (typeof(value) !== 'string') value = '' + value
-  return validator.whitelist(value, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789 :'-,\\\r\\\n\\(\\)!?.")
+  return validator.whitelist(value, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789 :'-,\\s\\(\\)!?.")
 }
 
 const sendDataToClient = (data, context, action) => {
@@ -66,6 +71,7 @@ const sendErrorToClient = (error, context, action) => {
 module.exports  = {
 	checkRoles,
 	jsonToBase64Str,
+	isUrl,
 	sanitize,
   sanitizeWithCommas,
   sanitizeConservatively,
