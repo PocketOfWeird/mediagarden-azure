@@ -33,6 +33,12 @@ module.exports = (context, action) => {
               case action_types.SERVER_SCRIPT_QUERY:
                 outToQueue('scriptQuery', 'all', action, context)
                 break
+              case action_types.SERVER_SOUND_POST:
+                outToQueue('soundPost', 'fasta', action, context)
+                break
+              case action_types.SERVER_SOUND_QUERY:
+                outToQueue('soundQuery', 'all', action, context)
+                break
               default:
                 sendErrorToClient('Invalid action type', context, action)
                 break

@@ -30,6 +30,20 @@
       "connection": "mediagarden0interqueues",
     },
     {
+      "name": "soundPostQueueOut",
+      "type": "queue",
+      "direction": "out",
+      "queueName": "sound-post",
+      "connection": "mediagarden0interqueues",
+    },
+    {
+      "name": "soundQueryQueueOut",
+      "type": "queue",
+      "direction": "out",
+      "queueName": "sound-query",
+      "connection": "mediagarden0interqueues",
+    },
+    {
       "name": "clientStateOut",
       "type": "queue",
       "direction": "out",

@@ -1,4 +1,4 @@
-// ScriptQueryHandler/index.js
+// SoundQueryHandler/index.js
 const { postIt } = require('../shared/helpers/fetchers')
 const action_types = require('../shared/helpers/action_types')
 const AzureSearchQuery = require('../shared/models/AzureSearchQuery')
@@ -6,11 +6,11 @@ const { sendDataToClient, sendErrorToClient } = require('../shared/helpers')
 
 
 module.exports = (context, action) => {
-    if (action.type === action_types.SERVER_SCRIPT_QUERY) {
+    if (action.type === action_types.SERVER_SOUND_QUERY) {
 
       AzureSearchQuery.validate(action.payload)
       .then(query => {
-        const url = 'https://' + process.env.azureSearchHostname + '/indexes/script/docs/search?api-version=2016-09-01'
+        const url = 'https://' + process.env.azureSearchHostname + '/indexes/sound/docs/search?api-version=2016-09-01'
 
         postIt(url, process.env.azureSearchQueryKey, query)
         .then(res => res.json())
@@ -25,6 +25,6 @@ module.exports = (context, action) => {
       })
       .catch(error => sendErrorToClient(error, context, action))
     } else {
-      sendErrorToClient('Invalid action for Script Query Queue', context, action)
+      sendErrorToClient('Invalid action for Sound Query Queue', context, action)
     }
 }
