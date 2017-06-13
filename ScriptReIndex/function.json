@@ -5,7 +5,7 @@
       "name": "action",
       "type": "queueTrigger",
       "direction": "in",
-      "queueName": "script-post",
+      "queueName": "script-reindex",
       "connection": "mediagarden0interqueues"
     },
     {
