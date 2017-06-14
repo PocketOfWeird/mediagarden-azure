@@ -7,6 +7,7 @@ const Sound = modeler.model({
   type: { type: 'string', accept: ['sound', 'music'], required: true },
   category: { type: 'string', modifier: 'sanitize', required: true },
   keywords: { type: 'string', modifier: 'sanitizeWithCommas' },
+  style: { type: 'string', modifier: 'sanitize' },
   uploaded: { type: 'number', creator: 'timestamp' },
   uploaded_by: { type: 'string', required: true },
   last_updated: { type: 'number', modifier: 'timestamp' },
