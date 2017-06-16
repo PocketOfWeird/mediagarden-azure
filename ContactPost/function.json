@@ -1,0 +1,25 @@
+{
+  "disabled": false,
+  "bindings": [
+    {
+      "name": "req",
+      "type": "httpTrigger",
+      "direction": "in",
+      "authLevel": "function",
+      "methods": [ "POST" ],
+      "route": "api/contacts/"
+    },
+    {
+      "name": "res",
+      "type": "http",
+      "direction": "out",
+    },
+    {
+      "name": "clientStateOut",
+      "type": "queue",
+      "direction": "out",
+      "queueName": "client-state-out",
+      "connection": "mediagarden0clientqueues",
+    }
+  ]
+}

@@ -1,3 +1,6 @@
 {
-  "id": "e40484126dfd4ed5bb21d338647b3785"
+  "id": "e40484126dfd4ed5bb21d338647b3785",
+  "http": {
+    "routePrefix": ""
+  }
 }
