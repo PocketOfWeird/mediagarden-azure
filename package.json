@@ -1,7 +1,10 @@
 {
   "dependencies": {
     "azure-storage": "^2.1.0",
+    "cloudconvert": "^1.1.1",
+    "html-pdf": "^2.1.0",
     "jsonwebtoken": "^7.4.1",
+    "node-fetch": "^1.7.1",
     "obey": "^1.7.4",
     "uuid": "^3.0.1",
     "validator": "^7.0.0"
