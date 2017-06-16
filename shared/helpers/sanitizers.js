@@ -9,21 +9,23 @@ const _baseSanitizer = characters => value => {
 
 const Sanitizers = {
 
-	sanitize: _baseSanitizer("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789 :'-_"),
+	sanitize: _baseSanitizer("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 :'-_"),
 
-	sanitizeConservatively: _baseSanitizer("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789 :'-,\\s\\(\\)!?._"),
+	sanitizeConservatively: _baseSanitizer("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 :'-,\\s\\(\\)!?._"),
 
-	sanitizeFacets: _baseSanitizer("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789:,\\+\\-\\|_"),
+	sanitizeFacets: _baseSanitizer("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:,\\+\\-\\|_"),
 
-	sanitizeLiberally: _baseSanitizer("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789-_"),
+	sanitizeLiberally: _baseSanitizer("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_"),
 
-	sanitizeOData: _baseSanitizer("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789 \\/:'-,\\(\\)._"),
+	sanitizeLiberallyWithSpaces: _baseSanitizer("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -_"),
 
-	sanitizeSearchFields: _baseSanitizer("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789 -,_"),
+	sanitizeOData: _baseSanitizer("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 \\/:'-,\\(\\)._"),
 
-	sanitizeSimpleQuery: _baseSanitizer("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789 \\+\\|\\-\\*\"\\(\\)_"),
+	sanitizeSearchFields: _baseSanitizer("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -,_"),
 
-	sanitizeWithCommas: _baseSanitizer("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789 :'-,_"),
+	sanitizeSimpleQuery: _baseSanitizer("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 \\+\\|\\-\\*\"\\(\\)_"),
+
+	sanitizeWithCommas: _baseSanitizer("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 :'-,_"),
 
 }
 
