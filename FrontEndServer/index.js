@@ -1,5 +1,8 @@
 module.exports = (context, req) => {
   const isDevEnv = process.env.NODE_ENV === 'development'
+  const favicon = isDevEnv ? `"http://127.0.0.1:10000/devstoreaccount1/public/favicon.gif"` : `"https://mediagarden0frontend.blob.core.windows.net/public/favicon.gif"`
+  const header_photo = isDevEnv ? `http://127.0.0.1:10000/devstoreaccount1/public/header_photo.jpg` : `https://mediagarden0frontend.blob.core.windows.net/public/header_photo.jpg`
+  const bundle = isDevEnv ? `"bundle.js"` : `"bundle.min.js"`
   const homepage = `
   <!DOCTYPE html>
   <html lang="en" itemscope itemtype="https://schema.org/WebPage">
@@ -11,9 +14,7 @@ module.exports = (context, req) => {
       <meta itemprop="name" content="Media Garden" />
       <meta name="theme-color" content="#5E0009" />
       <link rel="Stylesheet" media="all" href="//missouristate.info/styles/2015/global.aspx" />
-      <link rel="icon" type="image/gif" href=`+\
-        isDevEnv ? "http://127.0.0.1:10000/devstoreaccount1/public/favicon.gif" :\
-        "https://mediagarden0frontend.blob.core.windows.net/public/favicon.gif" + ` />
+      <link rel="icon" type="image/gif" href=` + favicon + ` />
       <style>
           /*<img src="https://missouristate.info/images/2015/template/facebook_share.jpg" width="1200" height="630" />*/
       </style>
@@ -21,9 +22,7 @@ module.exports = (context, req) => {
       <style>
           .UnitMastheadWrapper .SiteBranding {
               height: 346px;
-              background: #303031 url(`+\
-                isDevEnv ? "http://127.0.0.1:10000/devstoreaccount1/public/header_photo.jpg" :\
-                "https://mediagarden0frontend.blob.core.windows.net/public/header_photo.jpg" + `) no-repeat center center;
+              background: #303031 url(` + header_photo + `) no-repeat center center;
               background-size: cover;
           }
 
@@ -234,8 +233,7 @@ module.exports = (context, req) => {
           </footer>
       </div>
       <!-- Core javascript -->
-      <!--<script type="text/javascript" src=`+\
-      isDevEnv ? "bundle.js" : "bundle.min.js" + `></script>-->
+      <!--<script type="text/javascript" src=` + bundle + `></script>-->
   </body>
   </html>
   `
