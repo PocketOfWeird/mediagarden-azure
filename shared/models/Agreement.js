@@ -10,7 +10,6 @@ const Agreement = modeler.model({
   PartitionKey: { type: 'string', allow: ['liability', 'author', 'access'], required: true },
   type: { type: 'string', allow: ['liability', 'author', 'access'], required: true },
   text: { type: 'string', modifier: 'sanitizeConservatively', required: true },
-  etag: { type: 'string' }
 })
 
 module.exports = Agreement

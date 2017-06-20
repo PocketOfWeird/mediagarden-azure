@@ -1,4 +1,4 @@
-// helpers.js
+// shared/helpers/index.js
 const action_types = require('./action_types')
 
 
@@ -38,6 +38,15 @@ const sendError = (error, context, status, action) => {
   context.done()
 }
 
+const redirect = (context, Location) => {
+	context.res = {
+    status: 302,
+    headers: { Location },
+    body: 'Redirecting...'
+  }
+  context.done()
+}
+
 const sendDataToClient = (data, context, action) => {
 	context.bindings.clientStateOut = [dataAction(data, action)]
 	context.done()
@@ -52,6 +61,7 @@ module.exports = {
 	jsonToBase64Str,
 	sendData,
 	sendError,
+	redirect,
 	sendDataToClient,
 	sendErrorToClient,
 }

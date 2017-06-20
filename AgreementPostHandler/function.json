@@ -2,18 +2,24 @@
   "disabled": false,
   "bindings": [
     {
-      "name": "action",
-      "type": "queueTrigger",
+      "name": "req",
+      "type": "httpTrigger",
       "direction": "in",
-      "queueName": "agreement-post",
-      "connection": "mediagarden0interqueues"
+      "authLevel": "function",
+      "methods": [ "POST", "PUT" ],
+      "route": "api/agreements/",
     },
     {
-      "name": "clientStateOut",
-      "type": "queue",
+      "name": "outTable",
+      "type": "table",
       "direction": "out",
-      "queueName": "client-state-out",
-      "connection": "mediagarden0clientqueues",
-    }
+      "tableName": "Agreement",
+      "connection": "mediagarden0intertables",
+    },
+    {
+      "name": "res",
+      "type": "http",
+      "direction": "out",
+    },
   ]
 }
