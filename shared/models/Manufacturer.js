@@ -1,8 +1,8 @@
-// shared/models/Role.js
+// shared/models/Manufacturer.js
 const modeler = require('./modeler')
 
 
-const Role = modeler.model({
+const Manufacturer = modeler.model({
   id: { type: 'uuid', creator: 'uuid', required: true },
   partition_key: { type: 'string', modifier: 'sanitizeLiberally', required: true },
   name: { type: 'string', modifier: 'sanitizeLiberally', required: true },
@@ -12,4 +12,4 @@ const Role = modeler.model({
   last_updated_by: { type: 'string', required: true },
 })
 
-module.exports = Role
+module.exports = Manufacturer

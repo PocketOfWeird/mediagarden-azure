@@ -8,7 +8,7 @@ module.exports = (context, action) => {
   if (action.type === action_types.SERVER_AGREEMENT_POST) {
     var data = action.payload
     data.PartitionKey = data.type
-    data.created_by = data.created_by ? data.created_by : action.meta.user.user
+    data.uploaded_by = data.uploaded_by ? data.uploaded_by : action.meta.user.user
     data.last_updated_by = action.meta.user.user
 
     Agreement.validate(data)
