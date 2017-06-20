@@ -74,6 +74,7 @@ module.exports = {
       models: 'hasModel',
       projects: 'availableToProject',
       reservations: 'inReservation',
+      statuses: 'hasStatus',
     },
     fines: {
       contacts: 'hasFine',
@@ -143,6 +144,7 @@ module.exports = {
       barcodes: 'hasStatus',
       contacts: 'hasStatus',
       courses: 'hasStatus',
+      equipment: 'hasStatus',
       groups: 'hasStatus',
       projects: 'hasStatus',
       reservations: 'hasStatus',
