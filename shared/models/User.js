@@ -6,6 +6,7 @@ const User = modeler.model({
   user: { type: 'string', required: true },
   attributes: { type: 'object', keys: {
     isStudent: { type: 'string' },
+    isFaculty: { type: 'string' },
     first_name: { type: 'string', required: true },
     bearpass_EmailID: { type: 'string', required: true },
     email: { type: 'email', required: true },

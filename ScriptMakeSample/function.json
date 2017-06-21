@@ -2,32 +2,17 @@
   "disabled": false,
   "bindings": [
     {
-      "name": "action",
-      "type": "queueTrigger",
+      "name": "req",
+      "type": "httpTrigger",
       "direction": "in",
-      "queueName": "script-post",
-      "connection": "mediagarden0interqueues"
+      "authLevel": "function",
+      "methods": [ "PUT" ],
+      "route": "api/scripts/sample",
     },
     {
-      "name": "scriptReIndexQueueOut",
-      "type": "queue",
+      "name": "res",
+      "type": "http",
       "direction": "out",
-      "queueName": "script-reindex",
-      "connection": "mediagarden0interqueues",
     },
-    {
-      "name": "scriptUpdateQueueOut",
-      "type": "queue",
-      "direction": "out",
-      "queueName": "script-update",
-      "connection": "mediagarden0interqueues",
-    },
-    {
-      "name": "clientStateOut",
-      "type": "queue",
-      "direction": "out",
-      "queueName": "client-state-out",
-      "connection": "mediagarden0clientqueues",
-    }
   ]
 }

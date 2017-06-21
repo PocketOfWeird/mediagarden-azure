@@ -1,30 +1,40 @@
 // SoundQueryHandler/index.js
+const token = require('../shared/auth/token')
+const { current } = require('../shared/helpers/checkers')
 const { postIt } = require('../shared/helpers/fetchers')
 const action_types = require('../shared/helpers/action_types')
 const AzureSearchQuery = require('../shared/models/AzureSearchQuery')
-const { sendDataToClient, sendErrorToClient } = require('../shared/helpers')
+const { sendData, sendError } = require('../shared/helpers')
 
 
-module.exports = (context, action) => {
-    if (action.type === action_types.SERVER_SOUND_QUERY) {
+module.exports = (context, req) => {
+  token.verify(req)
+  .then(user => {
+    if (current(user).allowedTo('QUERY', 'sounds')) {
+      const action = req.body
+      if (action.type === action_types.SERVER_SOUND_QUERY) {
+        AzureSearchQuery.validate(action.payload)
+        .then(query => {
+          const url = 'https://' + process.env.azureSearchHostname + '/indexes/sound/docs/search?api-version=2016-09-01'
 
-      AzureSearchQuery.validate(action.payload)
-      .then(query => {
-        const url = 'https://' + process.env.azureSearchHostname + '/indexes/sound/docs/search?api-version=2016-09-01'
-
-        postIt(url, process.env.azureSearchQueryKey, query)
-        .then(res => res.json())
-        .then(response => {
-          if (!response.error) {
-            sendDataToClient(response, context, action)
-          } else {
-            sendErrorToClient(response.error, context, action)
-          }
+          postIt(url, process.env.azureSearchQueryKey, query)
+          .then(res => res.json())
+          .then(response => {
+            if (response.ok) {
+              sendData(response, context)
+            } else {
+              sendError(response.statusText, context, response.status)
+            }
+          })
+          .catch(error => sendError(error, context))
         })
-        .catch(error => sendErrorToClient(error, context, action))
-      })
-      .catch(error => sendErrorToClient(error, context, action))
+        .catch(error => sendError(error, context, 400))
+      } else {
+        sendErrorToClient('Invalid action for Sound Query', context, 400)
+      }
     } else {
-      sendErrorToClient('Invalid action for Sound Query Queue', context, action)
+      sendError('Invalid permissions for Sound Query Post', context, 403)
     }
+  })
+  .catch(error => sendError(error, context, 401))
 }

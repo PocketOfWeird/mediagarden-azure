@@ -9,7 +9,7 @@ const _baseSanitizer = characters => value => {
 
 const sanitize = _baseSanitizer("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 :'-_")
 
-const sanitizeConservatively = _baseSanitizer("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 \\/:'-,\\(\\)\\._\\?\\!")
+const sanitizeConservatively = _baseSanitizer("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 \\/:'\\-,\\(\\)\\._\\?\\!")
 
 const sanitizeFacets = _baseSanitizer("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:,\\+\\-\\|_")
 

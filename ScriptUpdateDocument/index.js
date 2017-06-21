@@ -1,42 +1,48 @@
 // ScriptUpdateDocument/index.js
+const token = require('../shared/auth/token')
 const action_types = require('../shared/helpers/action_types')
 const Script = require('../shared/models/Script')
 const { postIt } = require('../shared/helpers/fetchers')
-const { allowedToPostScripts } = require('../shared/helpers/checkers')
-const { sendDataToClient, sendErrorToClient } = require('../shared/helpers')
+const { current } = require('../shared/helpers/checkers')
+const { sendData, sendError } = require('../shared/helpers')
 
 
-module.exports = (context, action) => {
-  if (action.type === action_types.SERVER_SCRIPT_POST) {
-    if (allowedToPostScripts(action)) {
-      var data = action.payload
-      data.last_updated_by = action.meta.user.user
+module.exports = (context, req) => {
+  token.verify(req)
+  .then(user => {
+    const action = req.body
+    if (action.type === action_types.SERVER_SCRIPT_POST) {
+      if (current(user).allowedTo('PUT', 'scripts', action.payload)) {
+        var data = action.payload
+        data.last_updated_by = user.id
 
-      Script.validate(data)
-      .then(script => {
+        Script.validate(data)
+        .then(script => {
 
-        script['@search.action'] = 'mergeOrUpload'
-        const data = { "value": [script] }
+          script['@search.action'] = 'mergeOrUpload'
+          const data = { "value": [script] }
 
-        const url = 'https://' + process.env.azureSearchHostname + '/indexes/script/docs/index?api-version=2016-09-01'
+          const url = 'https://' + process.env.azureSearchHostname + '/indexes/script/docs/index?api-version=2016-09-01'
 
-        postIt(url, process.env.azureSearchKey, data)
-        .then(res => res.json())
-        .then(response => {
-          if (!response.error) {
-            delete script['@search.action']
-            sendDataToClient(script, context, action)
-          } else {
-            sendErrorToClient(response.error, context, action)
-          }
+          postIt(url, process.env.azureSearchKey, data)
+          .then(res => res.json())
+          .then(response => {
+            if (response.ok) {
+              delete script['@search.action']
+              sendData(script, context)
+            } else {
+              sendError(response.statusText, context, response.status)
+            }
+          })
+          .catch(error => sendError(error, context))
         })
-        .catch(error => sendErrorToClient(error, context, action))
-      })
-      .catch(error => sendErrorToClient(error, context, action))
+        .catch(error => sendError(error, context, 400))
+      } else {
+        sendError('Invalid permissions for Script Put', context, 403)
+      }
     } else {
-      sendErrorToClient('Invalid permissions for Script Update Queue', context, action)
+      sendError('Invalid action for Script Put', context, 400)
     }
-  } else {
-    sendErrorToClient('Invalid action for Script Update Queue', context, action)
-  }
+  })
+  .catch(error => sendError(error, context, 401))
 }

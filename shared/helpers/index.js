@@ -2,39 +2,28 @@
 const action_types = require('./action_types')
 
 
-const dataAction = (data, action) => ({
+const _dataAction = (data) => ({
 	type: action_types.SERVER_DATA,
-	payload: {
-		data
-	},
-	meta: {
-		action
-	}
+	payload: { data }
 })
 
-const errorAction = (error, action) => ({
+const _errorAction = (error) => ({
 	type: action_types.SERVER_ERROR,
 	payload: typeof(error) === 'string' ? new Error(error) : error,
-	error: true,
-	meta: {
-		error: error + '',
-		action
-	}
+	error: true
 })
 
-const jsonToBase64Str = json => new Buffer(JSON.stringify(json)).toString("base64")
-
-const sendData = (data, context, status, action) => {
+const sendData = (data, context, status) => {
 	context.res.headers = { 'Content-Type': 'application/json' }
 	context.res.status = status || 200
-	context.res.body = { data: dataAction(data) }
+	context.res.body = { data: _dataAction(data) }
 	context.done()
 }
 
-const sendError = (error, context, status, action) => {
+const sendError = (error, context, status) => {
 	context.res.headers = { 'Content-Type': 'application/json' }
 	context.res.status = status || 500
-  context.res.body = { error: errorAction(error) }
+  context.res.body = { error: { message: error + '' }, data: _errorAction(error) }
   context.done()
 }
 
@@ -47,21 +36,9 @@ const redirect = (context, Location) => {
   context.done()
 }
 
-const sendDataToClient = (data, context, action) => {
-	context.bindings.clientStateOut = [dataAction(data, action)]
-	context.done()
-}
-
-const sendErrorToClient = (error, context, action) => {
-  context.bindings.clientStateOut = [errorAction(error, action)]
-  context.done()
-}
 
 module.exports = {
-	jsonToBase64Str,
 	sendData,
 	sendError,
 	redirect,
-	sendDataToClient,
-	sendErrorToClient,
 }

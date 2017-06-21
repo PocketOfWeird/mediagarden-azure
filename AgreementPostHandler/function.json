@@ -6,7 +6,7 @@
       "type": "httpTrigger",
       "direction": "in",
       "authLevel": "function",
-      "methods": [ "POST", "PUT" ],
+      "methods": [ "POST" ],
       "route": "api/agreements/",
     },
     {

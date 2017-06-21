@@ -2,18 +2,17 @@
   "disabled": false,
   "bindings": [
     {
-      "name": "action",
-      "type": "queueTrigger",
+      "name": "req",
+      "type": "httpTrigger",
       "direction": "in",
-      "queueName": "script-update",
-      "connection": "mediagarden0interqueues"
+      "authLevel": "function",
+      "methods": [ "PUT" ],
+      "route": "api/scripts/",
     },
     {
-      "name": "clientStateOut",
-      "type": "queue",
+      "name": "res",
+      "type": "http",
       "direction": "out",
-      "queueName": "client-state-out",
-      "connection": "mediagarden0clientqueues",
-    }
+    },
   ]
 }
