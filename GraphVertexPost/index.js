@@ -19,6 +19,8 @@ module.exports = function (context, req) {
         const PartitionKeyProp = modelInfo[2]
         var data = req.body.payload
         data.partition_key = data[PartitionKeyProp]
+        data.uploaded_by = user.id
+        data.last_updated_by = user.id
 
         Model.validate(data)
         .then(model => {

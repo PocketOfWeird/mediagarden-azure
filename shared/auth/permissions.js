@@ -11,7 +11,16 @@ const _ownerOrFacStaffAdmin = owner_id => (user, meta) => user.id === meta[owner
 
 const permissions = {
   agreements: {
-    POST: _facStaffAdmin
+    POST: _facStaffAdmin,
+  },
+  barcodes: {
+    POST: _labWorkerAdmin,
+  },
+  categories: {
+    POST: _labWorkerAdmin,
+  },
+  equipment: {
+    POST: _labWorkerAdmin,
   },
   scripts: {
     INDEX: _ownerOrFacStaffAdmin('author_id'),

@@ -1,24 +1,23 @@
 const client = require('./client')
-const gremlins =  require('./gremlins')
+const statements =  require('./statements')
 
-const _baseCall = (type, label, data) => new Promise((resolve, reject) => {
-
-  const statement = gremlins.generateStatement(type, label, data)
-
-  client.execute(statement, { }, (err, results) => {
-    if (!err) {
+const _execute = statement => new Promise((resolve, reject) => {
+  client.execute(statement, {}, (error, results) => {
+    if (!error) {
       resolve(results)
     } else {
-      reject(err)
+      reject(error)
     }
   })
 })
 
-const addVertex = (label, data) => _baseCall('addV', label, data)
-
-const addEdge = (relationship, ids) => _baseCall('addE', relationship, ids)
+const _statement = type => (label, data) => {
+  const statement = statements.generate(type, label, data)
+  return _execute(statement)
+}
 
 module.exports = {
-  addVertex,
-  addEdge,
+  addVertex: _statement(statements.TYPES.addVertex),
+  addEdge: _statement(statements.TYPES.addEdge),
+  batch: Jobs => Jobs.reduce((jobs, job) => jobs.then(job), Promise.resolve())
 }

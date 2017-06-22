@@ -1,8 +1,7 @@
-// shared/graph.js
+// shared/graph/gremlin.js
 const Gremlin = require('gremlin-secure')
 
-
-module.exports =  Gremlin.createClient(443, process.env.graph_endpoint,
+module.exports = Gremlin.createClient(443, process.env.graph_endpoint,
   {
       session: false,
       ssl: true,

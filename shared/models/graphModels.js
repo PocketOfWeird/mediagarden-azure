@@ -4,38 +4,28 @@ const Category = require('./Category')
 const Contact = require('./Contact')
 const Course = require('./Course')
 const Equipment = require('./Equipment')
-const EquipmentModel = require('./EquipmentModel')
 const Fine = require('./Fine')
 const Group = require('./Group')
 const Kit = require('./Kit')
-const Manufacturer = require('./Manufacturer')
 const Project = require('./Project')
 const Reservation = require('./Reservation')
-const Role = require('./Role')
-const Status = require('./Status')
-
 
 module.exports = {
   resources: {
-    barcodes: [Barcode, 'barcode', 'tag'],
+    barcodes: [Barcode, 'barcode', 'location'],
     categories: [Category, 'category', 'name'],
     contacts: [Contact, 'contact', 'username'],
     courses: [Course, 'course', 'semester'],
-    equipment: [Equipment, 'equipment', 'location'],
+    equipment: [Equipment, 'equipment', 'manufacturer'],
     fines: [Fine, 'fine', 'semester'],
     groups: [Group, 'group', 'semester'],
     kits: [Kit, 'kit', 'location'],
-    models: [EquipmentModel, 'model', 'uploaded_by'],
-    manufacturers: [Manufacturer, 'manufacturer', 'name'],
     projects: [Project, 'project', 'semester'],
     reservations: [Reservation, 'reservation', 'semester'],
-    roles: [Role, 'role', 'name'],
-    statuses: [Status, 'status', 'name'],
   },
   relationships: {
     barcodes: {
       equipment: 'hasBarcode',
-      statuses: 'hasStatus',
     },
     categories: {
       courses: 'availableToCourse',
@@ -50,8 +40,6 @@ module.exports = {
       groups: 'inGroup',
       projects: 'inProject',
       reservations: 'hasReservation',
-      roles: 'hasRole',
-      statuses: 'hasStatus',
     },
     courses: {
       categories: 'availableToCourse',
@@ -59,11 +47,8 @@ module.exports = {
       equipment: 'availableToCourse',
       groups: 'hasGroup',
       kits: 'availableToCourse',
-      manufacturers: 'availableToCourse',
-      models: 'availableToCourse',
       projects: 'hasProject',
       reservations: 'hasReservation',
-      statuses: 'hasStatus',
     },
     equipment: {
       barcodes: 'hasBarcode',
@@ -71,10 +56,8 @@ module.exports = {
       courses: 'availableToCourse',
       groups: 'availableToGroup',
       kits: 'inKit',
-      models: 'hasModel',
       projects: 'availableToProject',
       reservations: 'inReservation',
-      statuses: 'hasStatus',
     },
     fines: {
       contacts: 'hasFine',
@@ -88,11 +71,8 @@ module.exports = {
       equipment: 'availableToGroup',
       fines: 'hasFine',
       groups: 'availableToGroup',
-      manufacturers: 'availableToGroup',
-      models: 'availableToGroup',
       projects: 'hasProject',
       reservations: 'hasReservation',
-      statuses: 'hasStatus',
     },
     kits: {
       categories: 'inCategory',
@@ -102,19 +82,6 @@ module.exports = {
       projects: 'availableToProject',
       reservations: 'inReservation',
     },
-    manufacturers: {
-      courses: 'availableToCourse',
-      groups: 'availableToGroup',
-      models: 'hasManufacturer',
-      projects: 'availableToProject',
-    },
-    models: {
-      courses: 'availableToCourse',
-      equipment: 'hasModel',
-      groups: 'availableToGroup',
-      manufacturers: 'hasManufacturer',
-      projects: 'availableToProject',
-    },
     projects: {
       categories: 'availableToProject',
       contacts: 'inProject',
@@ -123,10 +90,7 @@ module.exports = {
       fines: 'hasFine',
       groups: 'hasProject',
       kits: 'availableToProject',
-      manufacturers: 'availableToProject',
-      models: 'availableToProject',
       reservations: 'hasReservation',
-      statuses: 'hasStatus',
     },
     reservations: {
       courses: 'hasReservation',
@@ -135,19 +99,18 @@ module.exports = {
       groups: 'hasReservation',
       kits: 'inReservation',
       projects: 'hasReservation',
-      statuses: 'hasStatus',
     },
-    roles: {
-      contacts: 'hasRole',
-    },
-    statuses: {
-      barcodes: 'hasStatus',
-      contacts: 'hasStatus',
-      courses: 'hasStatus',
-      equipment: 'hasStatus',
-      groups: 'hasStatus',
-      projects: 'hasStatus',
-      reservations: 'hasStatus',
-    },
+  },
+  edgeProps: {
+    hasBarcode: {
+      status: {
+        checked_in: 'Checked-In',
+        checked_out: 'Checked-Out',
+        missing: 'Missing',
+        needs_repair: 'Needs-Repair',
+        retired: 'Retired',
+        default: 'Checked-In'
+      }
+    }
   }
 }
