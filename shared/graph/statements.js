@@ -17,14 +17,14 @@ const _addVertex = (label, data) => ".addV('" + label + "')" + _makePropsFromDat
 
 const _getVertex = id => ".V('" + id + "')"
 
-const _addEdge = (relationship, id2, props) => ".addE('" + relationship + "').to(g.V('" + id2 + "'))"  + _makePropsFromData(props)
+const _addEdge = (relationship, to, props) => ".addE('" + relationship + "').to(g.V('" + to + "'))"  + _makePropsFromData(props)
 
 const generate = (type, label, data) => {
   switch (type) {
     case TYPES.addVertex:
       return "g" + _addVertex(label, data)
     case TYPES.addEdge:
-      return "g" + _getVertex(data.id1) + _addEdge(label, data.id2, data.props)
+      return "g" + _getVertex(data.from) + _addEdge(label, data.to, data.props)
     default:
       return "g.V().count()"
   }

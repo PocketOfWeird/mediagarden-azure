@@ -1,10 +1,10 @@
 // sanitizers.js
-const validator = require('validator')
+const whitelist = require('validator/lib/whitelist')
 
 const _baseSanitizer = characters => value => {
 	if (!value) return
 	if (typeof(value) !== 'string') value = '' + value
-  return validator.whitelist(value, characters)
+  return whitelist(value, characters)
 }
 
 const sanitize = _baseSanitizer("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 :'-_")

@@ -1,23 +1,38 @@
 const client = require('./client')
 const statements =  require('./statements')
 
-const _execute = statement => new Promise((resolve, reject) => {
-  client.execute(statement, {}, (error, results) => {
+const single = (job, callback) => {
+  const statement = statements.generate(job.type, job.label, job.data)
+
+  client.execute(statement, {}, (error, result) => {
     if (!error) {
-      resolve(results)
+      callback(null, result)
     } else {
-      reject(error)
+      callback(error)
     }
   })
-})
+}
 
-const _statement = type => (label, data) => {
-  const statement = statements.generate(type, label, data)
-  return _execute(statement)
+const batch = (jobs, callback, results) => {
+  if (jobs.length === 0) {
+    callback(null, results)
+  } else {
+    if (!results) results = []
+
+    var statement = statements.generate(jobs[0].type, jobs[0].label, jobs[0].data)
+
+    client.execute(statement, {}, (error, result) => {
+      if (!error) {
+        results.push(result)
+        _batch(jobs.slice(1), callback, results)
+      } else {
+        callback(error)
+      }
+    })
+  }
 }
 
 module.exports = {
-  addVertex: _statement(statements.TYPES.addVertex),
-  addEdge: _statement(statements.TYPES.addEdge),
-  batch: Jobs => Jobs.reduce((jobs, job) => jobs.then(job), Promise.resolve())
+  single,
+  batch,
 }

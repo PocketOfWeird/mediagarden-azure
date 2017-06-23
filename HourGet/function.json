@@ -6,8 +6,8 @@
       "type": "httpTrigger",
       "direction": "in",
       "authLevel": "function",
-      "methods": [ "POST" ],
-      "route": "api/{resource}/"
+      "methods": [ "GET" ],
+      "route": "api/hours/",
     },
     {
       "name": "res",

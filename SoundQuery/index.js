@@ -1,21 +1,21 @@
-// ScriptQueryHandler/index.js
+// SoundQuery/index.js
 const token = require('../shared/auth/token')
+const authenticated = require('../shared/auth')
 const { postIt } = require('../shared/helpers/fetchers')
 const action_types = require('../shared/helpers/action_types')
 const AzureSearchQuery = require('../shared/models/AzureSearchQuery')
-const { current } = require('../shared/helpers/checkers')
 const { sendData, sendError } = require('../shared/helpers')
 
 
 module.exports = (context, req) => {
   token.verify(req)
   .then(user => {
-    if (current(user).allowedTo('QUERY', 'scripts')) {
+    if (authenticated(user).allowedTo('QUERY', 'sounds')) {
       const action = req.body
-      if (action.type === action_types.SERVER_SCRIPT_QUERY) {
+      if (action.type === action_types.SOUND_QUERY) {
         AzureSearchQuery.validate(action.payload)
         .then(query => {
-          const url = 'https://' + process.env.azureSearchHostname + '/indexes/script/docs/search?api-version=2016-09-01'
+          const url = 'https://' + process.env.azureSearchHostname + '/indexes/sound/docs/search?api-version=2016-09-01'
 
           postIt(url, process.env.azureSearchQueryKey, query)
           .then(res => res.json())
@@ -30,10 +30,10 @@ module.exports = (context, req) => {
         })
         .catch(error => sendError(error, context, 400))
       } else {
-        sendError('Invalid action for Script Query', context, 400)
+        sendErrorToClient('Invalid action for Sound Query', context, 400)
       }
     } else {
-      sendError('Invalid permissions for Script Query Post', context, 403)
+      sendError('Invalid permissions for Sound Query Post', context, 403)
     }
   })
   .catch(error => sendError(error, context, 401))

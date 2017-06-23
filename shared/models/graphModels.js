@@ -19,7 +19,7 @@ module.exports = {
     equipment: [Equipment, 'equipment', 'manufacturer'],
     fines: [Fine, 'fine', 'semester'],
     groups: [Group, 'group', 'semester'],
-    kits: [Kit, 'kit', 'location'],
+    kits: [Kit, 'kit', 'uploaded_by'],
     projects: [Project, 'project', 'semester'],
     reservations: [Reservation, 'reservation', 'semester'],
   },

@@ -1,9 +1,9 @@
-// ScriptMakeSample/index.js
+// ScriptSample/index.js
 const token = require('../shared/auth/token')
 const cloudconvert = new (require('cloudconvert'))(process.env.cloudconvert_key)
 const action_types = require('../shared/helpers/action_types')
 const Script = require('../shared/models/Script')
-const { current } = require('../shared/helpers/checkers')
+const authenticated = require('../shared/auth')
 const { sendData, sendError } = require('../shared/helpers')
 
 
@@ -11,8 +11,8 @@ module.exports = (context, req) => {
   token.verify(req)
   .then(user => {
     const action = req.body
-    if (action.type === action_types.SERVER_SCRIPT_POST) {
-      if (current(user).allowedToPost('SAMPLE', 'scripts', action.payload)) {
+    if (action.type === action_types.SCRIPT_SAMPLE) {
+      if (authenticated(user).allowedToPost('SAMPLE', 'scripts', action.payload)) {
         var data = action.payload
         data.last_updated_by = user.id
 

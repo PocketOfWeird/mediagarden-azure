@@ -1,12 +1,17 @@
 // shared/helpers/fetchers.js
 const fetch = require('node-fetch')
-const { isUrl } = require('./checkers')
+const isURL = require('validator/lib/isURL')
 
+
+const _isUrl = value => {
+	if (typeof(value) !== 'string') value = '' + value
+	return isURL(value)
+}
 
 const _rejected = message => new Promise((resolve, reject) => reject(message))
 
 const getIt = (url, key, headers) => {
-  if (!isUrl(url)) return _rejected('Invalid url')
+  if (!_isUrl(url)) return _rejected('Invalid url')
 
   const options = {
     headers: headers || {
@@ -19,7 +24,7 @@ const getIt = (url, key, headers) => {
 }
 
 const postIt = (url, key, data, headers) => {
-  if (!isUrl(url)) return _rejected('Invalid url')
+  if (!_isUrl(url)) return _rejected('Invalid url')
 
   const body = JSON.stringify(data)
 

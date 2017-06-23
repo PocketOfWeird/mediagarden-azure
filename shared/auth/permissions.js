@@ -7,7 +7,11 @@ const _facStaffAdmin = user => hasRole('facstaffadmin', user)
 
 const _labWorkerAdmin = user => hasRole('labworkeradmin', user)
 
-const _ownerOrFacStaffAdmin = owner_id => (user, meta) => user.id === meta[owner_id] || _facStaffAdmin(user)
+const _owner = owner_id => (user, meta) => user.id === meta[owner_id]
+
+const _ownerOrFacStaffAdmin = owner_id => (user, meta) => _owner(owner_id) || _facStaffAdmin(user)
+
+const _ownerOrLabWorkerAdmin = owner_id => (user, meta) => _owner(owner_id) || _labWorkerAdmin(user)
 
 const permissions = {
   agreements: {
@@ -19,8 +23,21 @@ const permissions = {
   categories: {
     POST: _labWorkerAdmin,
   },
+  contacts: {
+    POST: _ownerOrLabWorkerAdmin('username')
+  },
   equipment: {
     POST: _labWorkerAdmin,
+  },
+  hours: {
+    GET: _anybody,
+    POST: _labWorkerAdmin,
+  },
+  kits: {
+    POST: _labWorkerAdmin,
+  },
+  reservations: {
+    POST: _labWorkerAdmin, //NOTE: need to call graph and check if current user is connected to the contact submitted with the reservation
   },
   scripts: {
     INDEX: _ownerOrFacStaffAdmin('author_id'),

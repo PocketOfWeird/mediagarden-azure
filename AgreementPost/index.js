@@ -2,19 +2,19 @@
 const token = require('../shared/auth/token')
 const action_types = require('../shared/helpers/action_types')
 const Agreement = require('../shared/models/Agreement')
-const { current } = require('../shared/helpers/checkers')
+const authenticated = require('../shared/auth')
 const { sendData, sendError } = require('../shared/helpers')
 
 
 module.exports = (context, req) => {
   token.verify(req)
   .then(user => {
-    if (current(user).allowedTo('POST', 'agreements')) {
+    if (authenticated(user).allowedTo('POST', 'agreements')) {
       const action = req.body
-      if (action.type === action_types.SERVER_AGREEMENT_POST) {
+      if (action.type === action_types.AGREEMENT_POST) {
         var data = action.payload
         data.PartitionKey = data.type
-        data.uploaded_by = data.uploaded_by ? data.uploaded_by : user.id
+        data.uploaded_by = data.uploaded_by || user.id
         data.last_updated_by = user.id
 
         Agreement.validate(data)

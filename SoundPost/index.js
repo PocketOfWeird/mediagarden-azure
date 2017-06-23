@@ -1,7 +1,7 @@
-// SoundUpdateDocument/index.js
+// SoundPost/index.js
 const token = require('../shared/auth/token')
 const action_types = require('../shared/helpers/action_types')
-const { current } = require('../shared/helpers/checkers')
+const authenticated = require('../shared/auth')
 const Sound = require('../shared/models/Sound')
 const { postIt } = require('../shared/helpers/fetchers')
 const { sendData, sendError } = require('../shared/helpers')
@@ -10,9 +10,9 @@ const { sendData, sendError } = require('../shared/helpers')
 module.exports = (context, action) => {
   token.verify(req)
   .then(user => {
-    if (current(user).allowedTo('POST', 'sounds')) {
+    if (authenticated(user).allowedTo('POST', 'sounds')) {
       const action = req.body
-      if (action.type === action_types.SERVER_SOUND_POST) {
+      if (action.type === action_types.SOUND_POST) {
         var data = action.payload
         data.uploaded_by = data.uploaded_by ? data.uploaded_by : user.id
         data.last_updated_by = user.id
