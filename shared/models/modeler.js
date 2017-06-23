@@ -16,6 +16,7 @@ const _isTime = value => {
   return isWhitelisted(value, "0123456789:")
 }
 
+obey.creator('date_rowkey', () => new Date(100000000 * 24 * 60 * 60 * 1000 - new Date().getTime()).getTime().toString())
 obey.creator('timestamp', () => new Date().getTime())
 obey.creator('uuid', () => uuidV4())
 

@@ -6,15 +6,8 @@
       "type": "httpTrigger",
       "direction": "in",
       "authLevel": "function",
-      "methods": [ "POST" ],
-      "route": "api/agreements/{type}",
-    },
-    {
-      "name": "outTable",
-      "type": "table",
-      "direction": "out",
-      "tableName": "Agreement",
-      "connection": "mediagarden0intertables",
+      "methods": [ "GET" ],
+      "route": "api/agreements/{type}/{id}",
     },
     {
       "name": "res",

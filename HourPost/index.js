@@ -20,6 +20,7 @@ module.exports = (context, req) => {
 
         Hour.validate(data)
         .then(hour => {
+          hour.hour.id = hour.hour.RowKey
           context.bindings.outTableHour = hour.hour
           context.bindings.outTableSpecial = []
           for (var i in hour.special) {

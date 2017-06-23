@@ -15,6 +15,8 @@ const _ownerOrLabWorkerAdmin = owner_id => (user, meta) => _owner(owner_id) || _
 
 const permissions = {
   agreements: {
+    GET: _anybody,
+    GET_ID: _facStaffAdmin,
     POST: _facStaffAdmin,
   },
   barcodes: {

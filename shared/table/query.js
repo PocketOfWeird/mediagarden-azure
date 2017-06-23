@@ -2,7 +2,7 @@
 const azure = require('azure-storage')
 const table = require('./index')
 
-const builder = new azure.TableQuery(process.env.mediagarden0intertables)
+const builder = () => new azure.TableQuery(process.env.mediagarden0intertables)
 
 const entities = (tables, query, callback, results) => {
   if (tables.length === 0) {

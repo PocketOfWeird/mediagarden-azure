@@ -111,6 +111,9 @@ module.exports = {
         retired: 'Retired',
         default: 'Checked-In'
       }
+    },
+    inCourse: {
+      agreement: 'string'
     }
   }
 }

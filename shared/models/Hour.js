@@ -4,6 +4,7 @@ const modeler = require('./modeler')
 const Hour = modeler.model({
   hour: { type: 'object', required: true, keys: {
     RowKey: { type: 'uuid', creator: 'uuid', required: true },
+    id: { type: 'uuid', equalTo: 'RowKey' },
     PartitionKey: { type: 'string', modifier: 'sanitizeLiberally', required: true },
     sunday_open: { type: 'time' },
     sunday_close: { type: 'time', requiredIf: 'sunday_open' },

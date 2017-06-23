@@ -1,4 +1,4 @@
-// AgreementPostHandler/index.js
+// AgreementGet/index.js
 const token = require('../shared/auth/token')
 const authenticated = require('../shared/auth')
 const { sanitizeLiberally } = require('../shared/helpers/sanitizers')
@@ -15,7 +15,7 @@ module.exports = (context, req) => {
       const type = sanitizeLiberally(req.params.type)
       if (types.agreements.includes(type)) {
 
-        const q = query.where('PartitionKey eq ?', type)
+        const q = query.builder().top(1).where('PartitionKey eq ?', type)
         table.queryEntities('Agreement', q, null, (error, result) => {
           if (!error) {
             sendData(result, context)
@@ -26,7 +26,6 @@ module.exports = (context, req) => {
       } else {
         sendError('Invalid type for Agreement Get', context, 400)
       }
-      const q = query.top(1).
     } else {
       sendError('Invalid permissions for Agreement Get', context, 403)
     }
