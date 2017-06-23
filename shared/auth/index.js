@@ -1,5 +1,6 @@
 // shared/auth/index.js
 const permissions = require('./permissions')
+const { hasRole } = require('./roles')
 
 
 const authorized = user => ({
@@ -9,7 +10,8 @@ const authorized = user => ({
 		} else {
 			return false
 		}
-	}
+	},
+	isLabWorker: () => hasRole('labworkeradmin', user), 
 })
 
 module.exports = authorized

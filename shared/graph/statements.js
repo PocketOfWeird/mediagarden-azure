@@ -1,8 +1,3 @@
-const TYPES = {
-  addVertex: 'addVertex',
-  addEdge: 'addEdge',
-}
-
 const _addQuotesIfString = value => typeof(value) === 'string' ? "'" + value + "'" : value
 
 const _makePropsFromData = data => {
@@ -21,10 +16,12 @@ const _addEdge = (relationship, to, props) => ".addE('" + relationship + "').to(
 
 const generate = (type, label, data) => {
   switch (type) {
-    case TYPES.addVertex:
+    case 'addVertex':
       return "g" + _addVertex(label, data)
-    case TYPES.addEdge:
+    case 'addEdge':
       return "g" + _getVertex(data.from) + _addEdge(label, data.to, data.props)
+    case 'getV':
+      return "g" + _getVertex(data)
     default:
       return "g.V().count()"
   }
@@ -32,5 +29,4 @@ const generate = (type, label, data) => {
 
 module.exports = {
     generate,
-    TYPES,
 }

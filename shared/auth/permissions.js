@@ -29,6 +29,7 @@ const permissions = {
     POST: _ownerOrLabWorkerAdmin('username')
   },
   equipment: {
+    GET_ID: _anybody,
     POST: _labWorkerAdmin,
   },
   hours: {
