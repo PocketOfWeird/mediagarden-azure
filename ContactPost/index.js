@@ -13,10 +13,15 @@ module.exports = function (context, req) {
       const action = req.body
       if (action.type === action_types.CONTACT_POST) {
         var data = action.payload
-        data.username = data.username || user.id
+        if (authenticated(user).isFacStaffAdmin()) {
+          data.username = data.username || user.id
+          data.name = data.name || user.name
+        } else {
+          data.username = user.id
+          data.name = user.name
+        }
         data.partition_key = data.username
-        data.name = user.name
-        data.uploaded_by = user.id,
+        data.uploaded_by = user.id
         data.last_updated_by = user.id
 
 

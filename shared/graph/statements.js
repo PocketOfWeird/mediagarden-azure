@@ -14,18 +14,26 @@ const _getVertex = id => ".V('" + id + "')"
 
 const _addEdge = (relationship, to, props) => ".addE('" + relationship + "').to(g.V('" + to + "'))"  + _makePropsFromData(props)
 
+const _has = data => ".has('"+data.key+"','"+data.value+"')"
+
 const generate = (type, label, data) => {
   switch (type) {
     case 'addVertex':
       return "g" + _addVertex(label, data)
     case 'addEdge':
       return "g" + _getVertex(data.from) + _addEdge(label, data.to, data.props)
+    case 'has':
+      return "g.V()" + _has(data)
     case 'getV':
       return "g" + _getVertex(data)
     case 'getOutE':
       return "g" + _getVertex(data) + ".outE()"
     case 'getOutEinV':
       return "g" + _getVertex(data) + ".outE().inV()"
+    case 'getInE':
+      return "g" + _getVertex(data) + ".inE()"
+    case "modifyVertexProps":
+      return "g" + _getVertex(data.id) + _makePropsFromData(data.props)
     default:
       return "g.V().count()"
   }

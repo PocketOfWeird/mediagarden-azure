@@ -21,7 +21,7 @@ const Contact = modeler.model({
   phone_number: { type: 'phone:numeric', min: 7, max: 10 },
   phone_type: { type: 'string', accept: ['Mobile','Office','Home'], requiredIf: 'phone_number' },
   phone_carrier: { type: 'string', requiredIf: { phone_type: 'Mobile' }},
-  status: { type: 'sting', allow: ['Active', 'Inactive'], default: 'Active' }
+  status: { type: 'string', allow: ['Active', 'Inactive'], default: 'Active' }
 })
 
 module.exports = Contact

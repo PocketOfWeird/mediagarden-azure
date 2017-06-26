@@ -59,10 +59,12 @@ const hasRole = (roleGroup, user) => {
   switch (roleGroup) {
     case 'any':
       return user.roles.Student || user.roles.Faculty || user.roles.Staff || user.roles.Admin || user.roles.Labworker
-    case 'facstaffadmin':
-      return user.roles.Faculty || user.roles.Staff || user.roles.Admin
-    case 'labworkeradmin':
-      return user.roles.Labworker || user.roles.Admin
+    case 'admin':
+      return user.roles.Admin
+    case 'facStaff':
+      return user.roles.Faculty || user.roles.Staff
+    case 'labworker':
+      return user.roles.Labworker
     default:
       return false
   }

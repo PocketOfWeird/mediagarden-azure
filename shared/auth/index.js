@@ -3,7 +3,7 @@ const permissions = require('./permissions')
 const { hasRole } = require('./roles')
 
 
-const authorized = user => ({
+const authenticated = user => ({
 	allowedTo: (action, resource, meta) => {
 		if (permissions[resource] && permissions[resource][action]) {
 			return permissions[resource][action](user, meta)
@@ -11,7 +11,8 @@ const authorized = user => ({
 			return false
 		}
 	},
-	isLabWorker: () => hasRole('labworkeradmin', user), 
+	isLabWorker: () => hasRole('labworker', user),
+	isFacStaffAdmin: () => hasRole('facStaff', user) || hasRole('admin', user),
 })
 
-module.exports = authorized
+module.exports = authenticated

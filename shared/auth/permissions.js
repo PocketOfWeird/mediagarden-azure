@@ -3,15 +3,23 @@ const { hasRole } = require('./roles')
 
 const _anybody = user => hasRole('any', user)
 
-const _facStaffAdmin = user => hasRole('facstaffadmin', user)
+const _admin = user => hasRole('admin', user)
 
-const _labWorkerAdmin = user => hasRole('labworkeradmin', user)
+const _facStaff = user => hasRole('facStaff', user)
+
+const _facStaffAdmin = user => _facStaff(user) || _admin(user)
+
+const _labWorker = user => hasRole('labworker', user)
+
+const _labWorkerAdmin = user => _labWorker(user) || _admin(user)
 
 const _owner = owner_id => (user, meta) => user.id === meta[owner_id]
 
 const _ownerOrFacStaffAdmin = owner_id => (user, meta) => _owner(owner_id) || _facStaffAdmin(user)
 
 const _ownerOrLabWorkerAdmin = owner_id => (user, meta) => _owner(owner_id) || _labWorkerAdmin(user)
+
+const _ownerOrLabWorkerOrFacStaffAdmin = owner_id => (user, meta) => _owner(owner_id) || _labWorker(user) || _facStaffAdmin(user)
 
 const permissions = {
   agreements: {
@@ -26,7 +34,11 @@ const permissions = {
     POST: _labWorkerAdmin,
   },
   contacts: {
-    POST: _ownerOrLabWorkerAdmin('username')
+    GET: _ownerOrLabWorkerOrFacStaffAdmin('username'),
+    GET_ID: _facStaffAdmin,
+    GET_ME: _anybody,
+    POST: _ownerOrLabWorkerOrFacStaffAdmin('username'),
+    PUT: _ownerOrLabWorkerOrFacStaffAdmin('username'),
   },
   equipment: {
     GET_ID: _anybody,
