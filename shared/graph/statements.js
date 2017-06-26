@@ -22,6 +22,10 @@ const generate = (type, label, data) => {
       return "g" + _getVertex(data.from) + _addEdge(label, data.to, data.props)
     case 'getV':
       return "g" + _getVertex(data)
+    case 'getOutE':
+      return "g" + _getVertex(data) + ".outE()"
+    case 'getOutEinV':
+      return "g" + _getVertex(data) + ".outE().inV()"
     default:
       return "g.V().count()"
   }

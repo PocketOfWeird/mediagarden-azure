@@ -4,6 +4,7 @@ const graph = require('../shared/graph')
 const action_types = require('../shared/helpers/action_types')
 const Barcode = require('../shared/models/Barcode')
 const authenticated = require('../shared/auth')
+const isUUID = require('validator/lib/isUUID')
 const { sendData, sendError } = require('../shared/helpers')
 
 module.exports = function (context, req) {
@@ -27,6 +28,12 @@ module.exports = function (context, req) {
           var jobs = []
           for (var i in barcode.barcodes) {
             jobs.push({ type: 'addVertex', label: 'barcode', data: barcode.barcodes[i] })
+            if (req.query.equipmentId) {
+              var equipmentId = req.query.equipmentId
+              if (isUUID(equipmentId, 4)) {
+                jobs.push({ type: 'addEdge', label: 'hasBarcode', data: {from: equipmentId, to: barcode.barcodes[i].id, props: {status:'Checked-In'}}})
+              }
+            }
           }
           graph.batch(jobs, (error, results) => {
             if (!error) {

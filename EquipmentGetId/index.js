@@ -11,14 +11,15 @@ module.exports = function (context, req) {
     if (authenticated(user).allowedTo('GET_ID', 'equipment')) {
       const id = String(req.params.id)
       if (isUUID(id, 4)) {
+        var jobs = []
+        jobs.push({ type: 'getV', data: id })
         if (authenticated(user).isLabWorker()) {
-          const job = { type: 'getFullEquipment', data: id }
-        } else {
-          const job = { type: 'getV', data: id }
+          jobs.push({ type: 'getOutE', data: id })
+          jobs.push({ type: 'getOutEinV', data: id })
         }
-        graph.single(job, (error, result) => {
+        graph.batch(jobs, (error, results) => {
           if (!error) {
-            sendData(result, context)
+            sendData(results, context)
           } else {
             sendError(error, context)
           }

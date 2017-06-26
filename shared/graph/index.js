@@ -24,7 +24,7 @@ const batch = (jobs, callback, results) => {
     client.execute(statement, {}, (error, result) => {
       if (!error) {
         results.push(result)
-        _batch(jobs.slice(1), callback, results)
+        batch(jobs.slice(1), callback, results)
       } else {
         callback(error)
       }
