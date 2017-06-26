@@ -5,7 +5,7 @@ const action_types = require('../shared/helpers/action_types')
 const Course = require('../shared/models/Course')
 const authenticated = require('../shared/auth')
 const { currentSemester } = require('../shared/helpers/dates')
-const { sendData, sendError } = require('../shared/helpers')
+const { sendData, sendError, removeProps } = require('../shared/helpers')
 
 module.exports = function (context, req) {
   token.verify(req)
@@ -22,12 +22,14 @@ module.exports = function (context, req) {
 
         Course.validate(data)
         .then(course => {
+          const courseProps = removeProps(['students']).from(course)
           var jobs = []
-          jobs.push({ type: 'addVertex', label: 'course', data: course })
+          jobs.push({ type: 'addVertex', label: 'course', data: courseProps })
           jobs.push({ type: 'addEdge', label: 'inCourse', data: {from: course.id, to: course.instructor, props: {is: 'Instructor', enrolled: Date.now()}}})
-          for (var i course.students) {
+          for (var i in course.students) {
             jobs.push({ type: 'addEdge', label: 'inCourse', data: {from: course.id, to: course.students[i], props: {is: 'Student', enrolled: Date.now()}}})
           }
+          console.log(jobs)
           graph.batch(jobs, (error, results) => {
             if (!error) {
               sendData(course, context, 201)

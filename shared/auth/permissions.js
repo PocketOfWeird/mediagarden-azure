@@ -34,11 +34,13 @@ const permissions = {
     POST: _labWorkerAdmin,
   },
   contacts: {
-    GET: _ownerOrLabWorkerOrFacStaffAdmin('username'),
     GET_ID: _facStaffAdmin,
     GET_ME: _anybody,
     POST: _ownerOrLabWorkerOrFacStaffAdmin('username'),
     PUT: _ownerOrLabWorkerOrFacStaffAdmin('username'),
+  },
+  course: {
+    POST: _admin,
   },
   equipment: {
     GET_ID: _anybody,

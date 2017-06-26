@@ -32,6 +32,8 @@ const generate = (type, label, data) => {
       return "g" + _getVertex(data) + ".outE().inV()"
     case 'getInE':
       return "g" + _getVertex(data) + ".inE()"
+    case 'getInEoutV':
+      return "g" + _getVertex(data) + ".inE().outV()"
     case "modifyVertexProps":
       return "g" + _getVertex(data.id) + _makePropsFromData(data.props)
     default:
