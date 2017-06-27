@@ -1,0 +1,32 @@
+{
+  "disabled": false,
+  "bindings": [
+    {
+      "name": "req",
+      "type": "httpTrigger",
+      "direction": "in",
+      "authLevel": "function",
+      "methods": [ "POST" ],
+      "route": "api/hours/",
+    },
+    {
+      "name": "outTableHour",
+      "type": "table",
+      "direction": "out",
+      "tableName": "Hour",
+      "connection": "mediagarden0intertables",
+    },
+    {
+      "name": "outTableSpecial",
+      "type": "table",
+      "direction": "out",
+      "tableName": "Special",
+      "connection": "mediagarden0intertables",
+    },
+    {
+      "name": "res",
+      "type": "http",
+      "direction": "out",
+    },
+  ]
+}

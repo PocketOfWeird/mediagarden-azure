@@ -1,0 +1,25 @@
+{
+  "disabled": false,
+  "bindings": [
+    {
+      "name": "req",
+      "type": "httpTrigger",
+      "direction": "in",
+      "authLevel": "function",
+      "methods": [ "POST" ],
+      "route": "api/agreements/{type}",
+    },
+    {
+      "name": "outTable",
+      "type": "table",
+      "direction": "out",
+      "tableName": "Agreement",
+      "connection": "mediagarden0intertables",
+    },
+    {
+      "name": "res",
+      "type": "http",
+      "direction": "out",
+    },
+  ]
+}

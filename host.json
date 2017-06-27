@@ -1,6 +1,9 @@
 {
   "id": "e40484126dfd4ed5bb21d338647b3785",
+  "functionTimeout": "00:10:00",
   "http": {
-    "routePrefix": ""
-  }
+    "routePrefix": "",
+    "dynamicThrottlesEnabled": true
+  },
+  "watchDirectories": [ "shared" ],
 }

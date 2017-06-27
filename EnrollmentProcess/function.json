@@ -1,0 +1,19 @@
+{
+  "disabled": false,
+  "bindings": [
+    {
+      "name": "enrollment",
+      "type": "queueTrigger",
+      "direction": "in",
+      "queueName": "enrollment-created",
+      "connection": "mediagarden0interqueues",
+    },
+    {
+      "name": "outQueue",
+      "type": "queue",
+      "direction": "out",
+      "queueName": "send-email",
+      "connection": "mediagarden0interqueues",
+    }
+  ]
+}

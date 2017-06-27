@@ -7,6 +7,13 @@
                 "route": "/"
             },
             "backendUri": "https://mediagarden.azurewebsites.net/app"
+        },
+        "barcodesEquipmentPost": {
+            "matchCondition": {
+                "methods": [ "POST" ],
+                "route": "/api/equipment/{equipmentId}/barcodes"
+            },
+            "backendUri": "https://mediagarden.azurewebsites.net/api/barcodes?equipmentId={equipmentId}"
         }
     }
 }

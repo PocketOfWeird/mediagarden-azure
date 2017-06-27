@@ -1,4 +1,4 @@
-// User.js
+// shared/models/User.js
 const modeler = require('./modeler')
 
 
@@ -6,6 +6,7 @@ const User = modeler.model({
   user: { type: 'string', required: true },
   attributes: { type: 'object', keys: {
     isStudent: { type: 'string' },
+    isFaculty: { type: 'string' },
     first_name: { type: 'string', required: true },
     bearpass_EmailID: { type: 'string', required: true },
     email: { type: 'email', required: true },
@@ -15,9 +16,7 @@ const User = modeler.model({
     isStaff: { type: 'string' },
     primary_role: { type: 'string', allow: [ 'Student', 'Faculty', 'Staff', ] },
     campus: { type: 'string', required: true },
-  }},
-  iat: { type: 'number' },
-  exp: { type: 'number' }
+  }}
 })
 
 module.exports = User

@@ -1,0 +1,18 @@
+{
+  "disabled": false,
+  "bindings": [
+    {
+      "name": "req",
+      "type": "httpTrigger",
+      "direction": "in",
+      "authLevel": "function",
+      "methods": [ "GET" ],
+      "route": "api/hours/",
+    },
+    {
+      "name": "res",
+      "type": "http",
+      "direction": "out",
+    },
+  ]
+}

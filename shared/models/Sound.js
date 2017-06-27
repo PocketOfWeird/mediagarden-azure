@@ -12,6 +12,7 @@ const Sound = modeler.model({
   uploaded_by: { type: 'string', required: true },
   last_updated: { type: 'number', modifier: 'timestamp' },
   last_updated_by: { type: 'string', required: true },
+  agreement_id: { type: 'string', required: true },
   author_id: { type: 'string' },
   author_name: { type: 'string', modifier: 'sanitize', required: true },
   num_downloaded: { type: 'number', default: 0 },

@@ -1,5 +1,6 @@
 // shared/models/Contact.js
 const modeler = require('./modeler')
+const states = require('../helpers/states.js')
 
 
 const Contact = modeler.model({
@@ -7,36 +8,22 @@ const Contact = modeler.model({
   partition_key: { type: 'string', modifier: 'sanitizeLiberally', required: true },
   username: { type: 'string', modifier: 'sanitizeLiberally', required: true },
   name: { type: 'string', modifier: 'sanitizeLiberallyWithSpaces', required: true },
+  email: { type: 'email', required: true },
+  grad_date: { type: 'number' },
+  uploaded: { type: 'number', creator: 'timestamp' },
+  uploaded_by: { type: 'string', required: true },
+  last_updated: { type: 'number', modifier: 'timestamp' },
+  last_updated_by: { type: 'string', required: true },
+  address_street1: { type: 'string', modifier: 'sanitizeLiberallyWithSpaces', max: 45 },
+  address_street2: { type: 'string', modifier: 'sanitizeLiberallyWithSpaces', max: 45 },
+  address_city:  { type: 'string', modifier: 'sanitizeLiberallyWithSpaces', max: 45, requiredIf: 'address_street1' },
+  address_state: { type: 'string', max: 2, accept: states.abbrvs, requiredIf: 'address_street1' },
+  address_zip: { type: 'number', min: 10000, max: 99999, requiredIf: 'address_street1' },
+  phone_number: { type: 'phone:numeric', min: 7, max: 10 },
+  phone_type: { type: 'string', accept: ['Mobile','Office','Home'], requiredIf: 'phone_number' },
+  phone_carrier: { type: 'string', requiredIf: { phone_type: 'Mobile' }},
+  status: { type: 'string', allow: ['Active', 'Inactive'], default: 'Active' },
+  notifyEnrollments: { type: 'string', allow: ['Email', 'Text', 'None'], default: 'Email' }
 })
-/*
-const Contact = modeler.model({
-  id: { type: 'string' },
-  label: { type: 'string', accept: 'contact', required: true },
-  type: { type: 'string', accept: 'vertex', required: true },
-  outE: { type: 'object', keys: {
-    hasRole: { type: 'array', values: { type: 'object', keys: {
-      id: { type: 'string' },
-      inV: { type: 'string' },
-    }}},
-    inCourse: { type: 'array', values: { type: 'object', keys: {
-      id: { type: 'string' },
-      inV: { type: 'string' },
-    }}},
-  }},
-  properties: { type: 'object', keys: {
-    partition_key: { type: 'array',  values: { type: 'object', keys: {  // username
-      value: { type: 'string', modifier: 'sanitizeLiberally', required: true }
-    }}},
-    username: { type: 'array', values: { type: 'object', keys: {
-      value: { type: 'string', modifier: 'sanitizeLiberally', required: true }
-    }}},
-    name: { type: 'array', values: { type: 'object', keys: {
-      value: { type: 'string', modifier: 'sanitizeLiberallyWithSpaces', required: true }
-    }}},
-    pic_url: { type: 'array', values: { type: 'object', keys: {
-      value: { type: 'customUrl' }
-    }}}
-  }}
-})
-*/
+
 module.exports = Contact

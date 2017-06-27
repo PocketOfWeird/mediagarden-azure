@@ -1,21 +1,36 @@
 // modeler.js
 const obey = require('obey')
 const uuidV4 = require('uuid/v4')
-const { isUrl } = require('../helpers/checkers')
-const Sanitizers = require('../helpers/sanitizers')
+const isURL = require('validator/lib/isURL')
+const isWhitelisted = require('validator/lib/isWhitelisted')
+const { registerSanitizers } = require('../helpers/sanitizers')
 
+
+const _isUrl = value => {
+	if (typeof(value) !== 'string') value = '' + value
+	return isURL(value)
+}
+
+const _isTime = value => {
+  if (typeof(value) !== 'string') value = '' + value
+  return isWhitelisted(value, "0123456789:")
+}
+
+obey.creator('date_rowkey', () => new Date(100000000 * 24 * 60 * 60 * 1000 - new Date().getTime()).getTime().toString())
 obey.creator('timestamp', () => new Date().getTime())
 obey.creator('uuid', () => uuidV4())
 
 obey.modifier('upperCase', val => val.toUpperCase())
 obey.modifier('timestamp', () => new Date().getTime())
 
-for (sanitizer in Sanitizers) {
-  obey.modifier(sanitizer, val => Sanitizers[sanitizer](val))
-}
+registerSanitizers(obey)
 
 obey.type('customUrl', context => {
-  if(!isUrl(context.value)) context.fail(`${context.key} is not a valid Url`)
+  if(!_isUrl(context.value)) context.fail(`${context.key} is not a valid Url`)
+})
+
+obey.type('time', context => {
+  if(!_isTime(context.value)) context.fail(`${context.key} is not a valid Time`)
 })
 
 module.exports = obey
