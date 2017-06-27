@@ -41,7 +41,7 @@ module.exports = function (context, req) {
       } else {
         sendError('Invalid permissions for Contact Get me', context, 403)
       }
-    } else if (isUUID(id)) {
+    } else if (isUUID(id, 4)) {
 
       if (authenticated(user).allowedTo('GET_ID', 'contacts')) {
         _getContantInfo(id, context)

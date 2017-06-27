@@ -29,7 +29,7 @@ module.exports = function (context, req) {
           for (var i in course.students) {
             jobs.push({ type: 'addEdge', label: 'inCourse', data: {from: course.id, to: course.students[i], props: {is: 'Student', enrolled: Date.now()}}})
           }
-          console.log(jobs)
+          
           graph.batch(jobs, (error, results) => {
             if (!error) {
               sendData(course, context, 201)

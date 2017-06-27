@@ -2,7 +2,7 @@
 const token = require('../shared/auth/token')
 const graph = require('../shared/graph')
 const action_types = require('../shared/helpers/action_types')
-const Contact = require('../shared/models/Contact')
+const ContactPut = require('../shared/models/ContactPut')
 const authenticated = require('../shared/auth')
 const isUUID = require('validator/lib/isUUID')
 const { sendData, sendError, removeProps } = require('../shared/helpers')
@@ -19,7 +19,7 @@ module.exports = function (context, req) {
         }
         data.last_updated_by = user.id
         if (data.id) {
-          Contact.validate(data)
+          ContactPut.validate(data)
           .then(contact => {
             var contactProps = removeProps(['id', 'partition_key', 'username']).from(contact)
             const job = { type: 'modifyVertexProps', data: { id: contact.id, props: contactProps }}

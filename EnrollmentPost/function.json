@@ -1,0 +1,32 @@
+{
+  "disabled": false,
+  "bindings": [
+    {
+      "name": "req",
+      "type": "httpTrigger",
+      "direction": "in",
+      "authLevel": "function",
+      "methods": [ "POST" ],
+      "route": "api/enrollments",
+    },
+    {
+      "name": "outTable",
+      "type": "table",
+      "direction": "out",
+      "tableName": "Enrollment",
+      "connection": "mediagarden0intertables",
+    },
+    {
+      "name": "outQueue",
+      "type": "queue",
+      "direction": "out",
+      "queueName": "enrollment-created",
+      "connection": "mediagarden0interqueues",
+    },
+    {
+      "name": "res",
+      "type": "http",
+      "direction": "out",
+    },
+  ]
+}

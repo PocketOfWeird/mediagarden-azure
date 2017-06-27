@@ -36,6 +36,8 @@ const generate = (type, label, data) => {
       return "g" + _getVertex(data) + ".inE().outV()"
     case "modifyVertexProps":
       return "g" + _getVertex(data.id) + _makePropsFromData(data.props)
+    case "getOutEhasPropsInV":
+      return  "g" + _getVertex(data.id) + ".outE().has('"+data.hasKey+"', '"+data.hasValue+"').inV()"
     default:
       return "g.V().count()"
   }

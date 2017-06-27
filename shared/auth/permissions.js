@@ -41,6 +41,10 @@ const permissions = {
   },
   course: {
     POST: _admin,
+    POST_STUDENT: _facStaffAdmin,
+  },
+  enrollments: {
+    POST: _ownerOrFacStaffAdmin('username'),
   },
   equipment: {
     GET_ID: _anybody,

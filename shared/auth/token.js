@@ -2,30 +2,8 @@ const jwt = require('jsonwebtoken')
 
 
 const sign = user => {
-  const signingUser = { id: user.user, name: user.attributes.name, roles: user.roles }
+  const signingUser = { id: user.user, name: user.attributes.name, email: user.attributes.email, roles: user.roles }
   return jwt.sign(signingUser, process.env.access_key, { expiresIn: process.env.access_expires })
-}
-
-var devUser = () => {}
-
-if (process.env.NODE_ENV === 'development') {
-  devUser = () => ({
-    user: process.env.local_user,
-    attributes: {
-      name: process.env.local_name,
-      isStudent: 'Student',
-      isStaff: 'Staff'
-    }
-  })
-}
-
-var signDev = () => {}
-
-if (process.env.NODE_ENV === 'development') {
-  signDev = devUser => {
-    signingUser = { id: devUser.user, name: devUser.attributes.name, roles: devUser.roles }
-    return jwt.sign(signingUser, process.env.access_key, { expiresIn: process.env.access_expires })
-  }
 }
 
 const verify = req => new Promise((resolve, reject) => {
@@ -44,9 +22,7 @@ const verify = req => new Promise((resolve, reject) => {
 })
 
 module.exports = {
-  devUser,
   sign,
-  signDev,
   verify
 }
 

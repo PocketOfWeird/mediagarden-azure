@@ -1,0 +1,12 @@
+{
+  "disabled": false,
+  "bindings": [
+    {
+      "name": "email",
+      "type": "queueTrigger",
+      "direction": "in",
+      "queueName": "send-email",
+      "connection": "mediagarden0interqueues",
+    }
+  ]
+}

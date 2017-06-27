@@ -16,9 +16,11 @@ module.exports = function (context, req) {
         if (authenticated(user).isFacStaffAdmin()) {
           data.username = data.username || user.id
           data.name = data.name || user.name
+          data.email =  data.email || user.email
         } else {
           data.username = user.id
           data.name = user.name
+          data.email = user.email
         }
         data.partition_key = data.username
         data.uploaded_by = user.id
