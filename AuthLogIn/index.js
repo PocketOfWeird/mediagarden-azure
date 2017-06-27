@@ -1,4 +1,4 @@
-const cas = require('../shared/cas')
+const cas = require('../shared/auth/cas')
 const { redirect } = require('../shared/helpers')
 
 
